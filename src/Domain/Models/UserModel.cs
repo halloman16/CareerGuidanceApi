@@ -35,6 +35,8 @@ namespace webapi.src.Domain.Models
         {
             return new ProfileBody
             {
+                FirstName = FirstName,
+                LastName = LastName,
                 Email = Email,
                 Role = Enum.Parse<UserRole>(RoleName),
                 UrlIcon = string.IsNullOrEmpty(Image) ? null : $"{Constants.webPathToProfileIcons}{Image}",

@@ -24,6 +24,8 @@ namespace webapi.src.Infrastructure.Repository
 
             var newUser = new UserModel
             {
+                FirstName = body.FirstName,
+                LastName = body.LastName,
                 Email = body.Email,
                 PasswordHash = body.Password,
                 RoleName = role,
