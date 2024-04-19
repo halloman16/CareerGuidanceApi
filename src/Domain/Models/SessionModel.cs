@@ -11,7 +11,6 @@ namespace webapi.src.Domain.Models
         public float MaxScore { get; set; }
         public bool IsSuccessful { get; set; }
         public float Mark { get; set; }
-        public string? DescriptionEvaluationReason { get; set; }
         public string? RecordingFilename { get; set; }
         public Guid UserModuleSessionId { get; set; }
         public UserModuleSessionModel UserModuleSession { get; set; }
@@ -21,7 +20,6 @@ namespace webapi.src.Domain.Models
             return new SessionBody
             {
                 Date = Date,
-                DescriptionEvaluationReason = DescriptionEvaluationReason,
                 Duration = Duration,
                 Id = Id,
                 IsSuccessful = IsSuccessful,

@@ -38,7 +38,6 @@ namespace webapi.src.Infrastructure.Repository
                 var newSession = new SessionModel
                 {
                     Duration = session.Duration,
-                    DescriptionEvaluationReason = session.DescriptionEvaluationReason,
                     IsSuccessful = session.IsSuccessful,
                     Mark = session.Mark,
                     MaxScore = session.MaxScore,
