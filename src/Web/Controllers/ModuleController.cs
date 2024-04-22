@@ -50,8 +50,8 @@ namespace webapi.src.Web.Controllers
             return Ok(module.ToModuleBody());
         }
 
-        [HttpPost("module"), Authorize(Roles = "Organization")]
-        [SwaggerOperation(Summary = "Создать новый модуль (создает аккаунт, являющийся организацией)", Description = "Создать новый модуль.")]
+        [HttpPost("module"), Authorize(Roles = "Admin")]
+        [SwaggerOperation(Summary = "Создать новый модуль (создает аккаунт, являющийся администратором)", Description = "Создать новый модуль.")]
         [SwaggerResponse(201, "Модуль успешно создан", typeof(ModuleBody))]
         [SwaggerResponse(409, "Модуль с таким именем уже существует")]
         public async Task<ActionResult<ModuleModel>> CreateModule(CreateModuleBody newModule, [FromHeader(Name = "Authorization")] string token)

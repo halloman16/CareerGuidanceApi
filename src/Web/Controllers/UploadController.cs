@@ -94,12 +94,12 @@ namespace webapi.src.Web.Controllers
             return File(bytes, "application/octet-stream");
         }
 
-        [HttpPost("module/{moduleName}"), Authorize(Roles = "Organization")]
+        [HttpPost("module/{moduleName}"), Authorize(Roles = "Admin")]
         [Consumes("multipart/form-data")]
         [RequestSizeLimit(200 * 1024 * 1024)]
         [DisableRequestSizeLimit]
         [RequestFormLimits(MultipartBodyLengthLimit = 200 * 1024 * 1024)]
-        [SwaggerOperation("Загрузить архив модуля как form-data (организация)")]
+        [SwaggerOperation("Загрузить архив модуля как form-data (администратор)")]
         [SwaggerResponse(200, Description = "Успешно загружен", Type = typeof(string))]
         [SwaggerResponse(400, Description = "Файлы не прикреплены")]
         [SwaggerResponse(404, Description = "Неверное имя модуля")]
