@@ -80,20 +80,6 @@ namespace webapi.src.Web.Controllers
             return File(bytes, "application/zip");
         }
 
-        [HttpGet("session/{filename}")]
-        [SwaggerOperation("Получить запись прохождения")]
-        [SwaggerResponse(200, Description = "Успешно", Type = typeof(File), ContentTypes = new string[] { "application/octet-stream" })]
-        [SwaggerResponse(404, Description = "Файла с таким именем нет")]
-
-        public async Task<IActionResult> GetZipRecordingFileAsync(string filename)
-        {
-            var bytes = await FileUploader.GetStreamFileAsync(Constants.localPathToSessionRecordingFiles, filename);
-            if (bytes == null)
-                return NotFound();
-
-            return File(bytes, "application/octet-stream");
-        }
-
         [HttpPost("module/{moduleName}"), Authorize(Roles = "Admin")]
         [Consumes("multipart/form-data")]
         [RequestSizeLimit(1024 * 1024 * 1024)]
@@ -124,30 +110,23 @@ namespace webapi.src.Web.Controllers
             return result == null ? NotFound() : Ok(filename);
         }
 
-        [HttpPost("session/{sessionId}"), Authorize]
-        [Consumes("multipart/form-data")]
-        [RequestSizeLimit(200 * 1024 * 1024)]
-        [DisableRequestSizeLimit]
-        [RequestFormLimits(MultipartBodyLengthLimit = 200 * 1024 * 1024)]
-        [SwaggerOperation("Загрузить запись прохождения как form-data")]
-        [SwaggerResponse(200, Description = "Успешно загружен", Type = typeof(string))]
-        [SwaggerResponse(400, Description = "Файлы не прикреплены")]
+        [HttpPost("deleteModule"), Authorize(Roles = "Admin")]
+        [SwaggerOperation("Удалить архив модуля (администратор)")]
+        [SwaggerResponse(200, Description = "Успешно удалён", Type = typeof(string))]
         [SwaggerResponse(404, Description = "Неверное имя модуля")]
-        public async Task<IActionResult> UploadZipFileToModule(Guid sessionId)
+        public async Task<IActionResult> DeleteModuleZipFileAsync(string fileUrl)
         {
-            var file = Request.Form.Files.FirstOrDefault();
-            if (file == null)
-                return BadRequest();
+            string filename = fileUrl.Replace(Constants.webPathToModuleFile, "");
 
-            var fileExtension = Path.GetExtension(file.FileName);
+            Console.WriteLine(Path.Combine(Constants.localPathToModuleFiles, filename));
 
-            var session = await _sessionRepository.GetSessionByIdAsync(sessionId);
-            if (session == null)
+            var bytes = await FileUploader.GetStreamFileAsync(Constants.localPathToModuleFiles, filename);
+            if (bytes == null)
                 return NotFound();
 
-            var filename = await FileUploader.UploadFileAsync(Constants.localPathToSessionRecordingFiles, file.OpenReadStream(), fileExtension);
-            var result = _sessionRepository.UpdateSessionRecordingFile(sessionId, filename);
-            return result == null ? NotFound() : Ok(filename);
+            System.IO.File.Delete(Path.Combine(Constants.localPathToModuleFiles, filename));
+
+            return Ok();
         }
     }
 }

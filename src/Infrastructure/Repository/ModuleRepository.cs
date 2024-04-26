@@ -32,6 +32,17 @@ namespace webapi.src.Infrastructure.Repository
             return result?.Entity;
         }
 
+        public async Task<bool> Delete(string moduleName)
+        {
+            var module = await GetModuleByNameAsync(moduleName);
+            if (module == null)
+                return false;
+
+            _context.Modules.Remove(module);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<IEnumerable<ModuleModel>> GetAllModulesAsync()
             => await _context.Modules.ToListAsync();
 

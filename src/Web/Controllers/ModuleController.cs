@@ -65,5 +65,18 @@ namespace webapi.src.Web.Controllers
 
             return CreatedAtAction(nameof(GetModule), new { name = createdModule.Name }, createdModule.ToModuleBody());
         }
+
+        [HttpPost("deleteModule"), Authorize(Roles = "Admin")]
+        [SwaggerOperation(Summary = "Удалить модуль (удаляет аккаунт, являющийся администратором)", Description = "Удалить модуль.")]
+        [SwaggerResponse(201, "Модуль успешно удалён", typeof(ModuleBody))]
+        [SwaggerResponse(409, "Модуль с таким именем уже существует")]
+        public async Task<ActionResult> DeleteModule(string moduleName, [FromHeader(Name = "Authorization")] string token)
+        {
+            var createdModule = await _moduleRepository.Delete(moduleName);
+            if (!createdModule)
+                return Conflict("Такого модуля не существует");
+
+            return CreatedAtAction(nameof(DeleteModule), "Модуль успешно удалён");
+        }
     }
 }

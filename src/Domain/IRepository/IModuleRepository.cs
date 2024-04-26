@@ -9,5 +9,6 @@ namespace webapi.src.Domain.IRepository
         Task<ModuleModel?> GetModuleByNameAsync(string name);
         Task<ModuleModel?> AddAsync(CreateModuleBody module, UserModel model);
         Task<ModuleModel?> UpdateFileAsync(string name, string filename);
+        Task<bool> Delete(string moduleName);
     }
 }
