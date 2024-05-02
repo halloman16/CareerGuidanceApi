@@ -79,7 +79,7 @@ namespace webapi.src.Infrastructure.Repository
                 => await _context.UserModuleSessions.Include(e => e.Sessions)
                     .FirstOrDefaultAsync(e => e.UserId == id);
 
-            public async Task<SessionAnalyticsBody?> GetSessionAnalyticsBody(string moduleName, Guid id, int countTopSessions = 3)
+            public async Task<SessionAnalyticsBody?> GetSessionAnalyticsBody(Guid id, int countTopSessions = 3)
             {
                 var userModule = await GetAllSessions(id);
                 if (userModule == null)

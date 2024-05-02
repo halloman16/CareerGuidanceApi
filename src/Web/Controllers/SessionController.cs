@@ -78,7 +78,7 @@ namespace webapi.src.Web.Controllers
             string moduleName)
         {
             var userId = _jwtService.GetUserId(token);
-            var userModule = await _sessionRepository.GetAllSessions(moduleName, userId);
+            var userModule = await _sessionRepository.GetAllSessions(userId);
             return Ok(userModule?.Sessions.Select(e => e.ToSessionBody()) ?? new List<SessionBody>());
         }
 
