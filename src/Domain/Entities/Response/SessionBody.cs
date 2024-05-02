@@ -15,6 +15,5 @@ namespace webapi.src.Domain.Entities.Response
         public bool IsSuccessful { get; set; }
         public float Mark { get; set; }
         public string? DescriptionEvaluationReason { get; set; }
-        public string? UrlRecordingFile { get; set; }
     }
 }

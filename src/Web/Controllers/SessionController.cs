@@ -70,12 +70,11 @@ namespace webapi.src.Web.Controllers
             return session == null ? NotFound() : Ok(session.ToSessionBody());
         }
 
-        [HttpGet("sessions/{moduleName}"), Authorize]
-        [SwaggerOperation("Получить все сессии пользователя в модуле")]
+        [HttpGet("sessions"), Authorize]
+        [SwaggerOperation("Получить все сессии пользователя")]
         [SwaggerResponse(200, Description = "Успешно", Type = typeof(IEnumerable<SessionBody>), ContentTypes = new string[] { MediaTypeNames.Application.Json })]
         public async Task<IActionResult> GetSessionsByUserModuleSessionId(
-            [FromHeader(Name = "Authorization")] string token,
-            string moduleName)
+            [FromHeader(Name = "Authorization")] string token)
         {
             var userId = _jwtService.GetUserId(token);
             var userModule = await _sessionRepository.GetAllSessions(userId);
