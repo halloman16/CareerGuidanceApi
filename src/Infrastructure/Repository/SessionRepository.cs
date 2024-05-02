@@ -58,17 +58,6 @@ namespace webapi.src.Infrastructure.Repository
                     .ToListAsync();
             }
 
-            public async Task<SessionModel?> UpdateSessionRecordingFile(Guid id, string filename)
-            {
-                var session = await GetSessionByIdAsync(id);
-                if (session == null)
-                    return null;
-
-                session.RecordingFilename = filename;
-                await _context.SaveChangesAsync();
-                return session;
-            }
-
             public async Task<SessionModel?> GetSessionByIdAsync(Guid sessionId)
             {
                 return await _context.SessionModels
@@ -86,13 +75,13 @@ namespace webapi.src.Infrastructure.Repository
                 return true;
             }
 
-            public async Task<UserModuleSessionModel?> GetAllSessions(string moduleName, Guid id)
+            public async Task<UserModuleSessionModel?> GetAllSessions(Guid id)
                 => await _context.UserModuleSessions.Include(e => e.Sessions)
-                    .FirstOrDefaultAsync(e => e.ModuleName == moduleName && e.UserId == id);
+                    .FirstOrDefaultAsync(e => e.UserId == id);
 
             public async Task<SessionAnalyticsBody?> GetSessionAnalyticsBody(string moduleName, Guid id, int countTopSessions = 3)
             {
-                var userModule = await GetAllSessions(moduleName, id);
+                var userModule = await GetAllSessions(id);
                 if (userModule == null)
                     return null;
 
