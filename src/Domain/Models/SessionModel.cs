@@ -25,8 +25,7 @@ namespace webapi.src.Domain.Models
                 IsSuccessful = IsSuccessful,
                 Mark = Mark,
                 MaxScore = MaxScore,
-                Score = Score,
-                UrlRecordingFile = RecordingFilename == null ? null : $"{Constants.webPathToSessionRecordingFile}{RecordingFilename}"
+                Score = Score
             };
         }
     }
