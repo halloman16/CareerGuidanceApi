@@ -8,6 +8,7 @@ namespace webapi.src.Domain.Entities.Response
         public Guid Id { get; set; }
         public DateTime Date { get; set; } = DateTime.UtcNow;
 
+        public string ModuleName { get; set; }
         [DataType(DataType.Duration)]
         public TimeSpan Duration { get; set; }
         public float Score { get; set; }

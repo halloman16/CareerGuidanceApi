@@ -20,6 +20,7 @@ namespace webapi.src.Domain.Models
             return new SessionBody
             {
                 Date = Date,
+                ModuleName = UserModuleSession.ModuleName,
                 Duration = Duration,
                 Id = Id,
                 IsSuccessful = IsSuccessful,
