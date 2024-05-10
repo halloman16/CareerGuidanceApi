@@ -24,7 +24,6 @@ namespace webapi.src.Domain.Models
         public string? RecoveryCode { get; set; }
         public bool WasPasswordResetRequest { get; set; }
         public string? Token { get; set; }
-        public string? Image { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? TokenValidBefore { get; set; }
 
@@ -38,8 +37,7 @@ namespace webapi.src.Domain.Models
                 FirstName = FirstName,
                 LastName = LastName,
                 Email = Email,
-                Role = Enum.Parse<UserRole>(RoleName),
-                UrlIcon = string.IsNullOrEmpty(Image) ? null : $"{Constants.webPathToProfileIcons}{Image}",
+                Role = Enum.Parse<UserRole>(RoleName)
             };
         }
     }

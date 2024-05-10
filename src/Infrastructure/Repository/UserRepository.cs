@@ -53,17 +53,6 @@ namespace webapi.src.Infrastructure.Repository
                 .Include(e => e.UserModuleSessions)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
-        public async Task<UserModel?> UpdateProfileIconAsync(Guid userId, string filename)
-        {
-            var user = await GetAsync(userId);
-            if (user == null)
-                return null;
-
-            user.Image = filename;
-            await _context.SaveChangesAsync();
-            return user;
-        }
-
         public async Task<string?> GenerateRecoveryCode(string email, TimeSpan? interval = null)
         {
             interval ??= TimeSpan.FromMinutes(10.0);

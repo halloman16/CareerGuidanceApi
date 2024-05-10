@@ -31,41 +31,6 @@ namespace webapi.src.Web.Controllers
             _jwtService = jwtService;
         }
 
-        [HttpPost("profileIcon"), Authorize]
-        [Consumes("multipart/form-data")]
-        [SwaggerOperation("Загрузить иконку профиля как form-data")]
-        [SwaggerResponse(200, Description = "Успешно", Type = typeof(string))]
-
-        public async Task<IActionResult> UploadProfileIcon([FromHeader(Name = "Authorization")] string token)
-        {
-            if (Request.Form.Files.Count == 0)
-                return BadRequest();
-
-            var file = Request.Form.Files[0];
-            var userId = _jwtService.GetUserId(token);
-            if (userId == Guid.Empty)
-                return Unauthorized();
-
-            var filename = await FileUploader.UploadFileAsync(Constants.localPathToProfileIcons, file.OpenReadStream(), ".jpeg");
-            await _userRepository.UpdateProfileIconAsync(userId, filename);
-            return Ok(new { filename });
-        }
-
-        [HttpGet("profileIcon/{filename}")]
-        [SwaggerOperation("Получить иконку профиля")]
-        [SwaggerResponse(200, Description = "Успешно", Type = typeof(File), ContentTypes = new string[] { MediaTypeNames.Image.Jpeg })]
-        [SwaggerResponse(404, Description = "Неверное имя файла")]
-
-        public async Task<IActionResult> GetProfileIcon(string filename)
-        {
-            var bytes = await FileUploader.GetStreamFileAsync(Constants.localPathToProfileIcons, filename);
-            if (bytes == null)
-                return NotFound();
-
-            return File(bytes, $"image/jpeg", filename);
-        }
-
-
         [HttpGet("module/{filename}")]
         [SwaggerOperation("Получить архив модуля")]
         [SwaggerResponse(200, Description = "Успешно", Type = typeof(File), ContentTypes = new string[] { "application/zip" })]
