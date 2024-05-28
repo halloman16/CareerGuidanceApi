@@ -156,12 +156,12 @@ namespace webapi
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
-            if (app.Environment.IsDevelopment())
-            {
+            //if (app.Environment.IsDevelopment())
+            //{
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
+            //}
 
             app.UseCors();
             app.UseHttpLogging();
