@@ -75,34 +75,34 @@ namespace webapi.src.Infrastructure.Repository
                 return true;
             }
 
-            public async Task<UserModuleSessionModel?> GetAllSessions(Guid id)
+            public async Task<List<UserModuleSessionModel>?> GetAllSessions(Guid id)
                 => await _context.UserModuleSessions.Include(e => e.Sessions)
-                    .FirstOrDefaultAsync(e => e.UserId == id);
+                    .Where(e => e.UserId == id).ToListAsync();
 
-            public async Task<SessionAnalyticsBody?> GetSessionAnalyticsBody(Guid id, int countTopSessions = 3)
-            {
-                var userModule = await GetAllSessions(id);
-                if (userModule == null)
-                    return null;
+            //public async Task<SessionAnalyticsBody?> GetSessionAnalyticsBody(Guid id, int countTopSessions = 3)
+            //{
+            //    var userModule = await GetAllSessions(id);
+            //    if (userModule == null)
+            //        return null;
 
-                var sessions = userModule.Sessions;
-                var sessionsAnalyticsBody = new SessionAnalyticsBody
-                {
-                    FailedSessions = sessions.Count(e => !e.IsSuccessful),
-                    SuccessfulSessions = sessions.Count(e => e.IsSuccessful),
-                    MaxScore = (sessions.MaxBy(e => e.Score)?.Score) ?? 0.0f,
-                    MinScore = (sessions.MinBy(e => e.Score)?.Score) ?? 0.0f,
-                    TotalSessions = sessions.Count,
-                    AverageScore = sessions.Average(e => e.Score),
-                    TopSessions = sessions.OrderByDescending(e => e.Score)
-                        .Take(countTopSessions)
-                        .Select(e =>
-                            e.ToSessionBody())
-                        .ToList()
-                };
+            //    var sessions = userModule.Sessions;
+            //    var sessionsAnalyticsBody = new SessionAnalyticsBody
+            //    {
+            //        FailedSessions = sessions.Count(e => !e.IsSuccessful),
+            //        SuccessfulSessions = sessions.Count(e => e.IsSuccessful),
+            //        MaxScore = (sessions.MaxBy(e => e.Score)?.Score) ?? 0.0f,
+            //        MinScore = (sessions.MinBy(e => e.Score)?.Score) ?? 0.0f,
+            //        TotalSessions = sessions.Count,
+            //        AverageScore = sessions.Average(e => e.Score),
+            //        TopSessions = sessions.OrderByDescending(e => e.Score)
+            //            .Take(countTopSessions)
+            //            .Select(e =>
+            //                e.ToSessionBody())
+            //            .ToList()
+            //    };
 
-                return sessionsAnalyticsBody;
-            }
+            //    return sessionsAnalyticsBody;
+            //}
         }
     }
 

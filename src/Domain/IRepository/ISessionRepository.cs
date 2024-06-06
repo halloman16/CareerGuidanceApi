@@ -10,8 +10,8 @@ namespace webapi.src.Domain.IRepository
         Task<IEnumerable<SessionModel>> GetAllByUserModuleSessionIdAsync(Guid userModuleSessionId);
         Task<SessionModel?> GetSessionByIdAsync(Guid sessionId);
         Task<bool> DeleteAsync(Guid sessionId);
-        Task<UserModuleSessionModel?> GetAllSessions(Guid id);
+        Task<List<UserModuleSessionModel>?> GetAllSessions(Guid id);
 
-        Task<SessionAnalyticsBody?> GetSessionAnalyticsBody(Guid id, int countTopSessions = 3);
+        //Task<SessionAnalyticsBody?> GetSessionAnalyticsBody(Guid id, int countTopSessions = 3);
     }
 }

@@ -1,5 +1,6 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using webapi.src.Domain.Entities.Request;
@@ -77,8 +78,13 @@ namespace webapi.src.Web.Controllers
             [FromHeader(Name = "Authorization")] string token)
         {
             var userId = _jwtService.GetUserId(token);
-            var userModule = await _sessionRepository.GetAllSessions(userId);
-            return Ok(userModule?.Sessions.Select(e => e.ToSessionBody()) ?? new List<SessionBody>());
+            var sessions = await _sessionRepository.GetAllSessions(userId);
+            List<SessionBody> s = new List<SessionBody>();
+            foreach (var item in sessions)
+            {
+                s.AddRange(item?.Sessions.Select(e => e.ToSessionBody()));
+            }
+            return Ok(s);
         }
 
         // [HttpGet("sessions/analytics/{moduleName}")]
