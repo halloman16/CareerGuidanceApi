@@ -11,7 +11,5 @@ namespace webapi.src.Domain.IRepository
         Task<UserModel?> GetUserModulesSessions(Guid id);
         Task<string?> UpdateTokenAsync(string newRefreshToken, Guid id, TimeSpan duration);
         Task<UserModel?> GetByTokenAsync(string refreshTokenHash);
-        Task<UserModel> ResetPassword(UserModel user, string newPassword);
-        Task<string?> GenerateRecoveryCode(string email, TimeSpan? interval = null);
     }
 }

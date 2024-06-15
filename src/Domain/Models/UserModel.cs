@@ -17,12 +17,7 @@ namespace webapi.src.Domain.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public string? RestoreCode { get; set; }
         public string RoleName { get; set; }
-        public DateTime? RestoreCodeValidBefore { get; set; }
-        public DateTime? RecoveryCodeValidBefore { get; set; }
-        public string? RecoveryCode { get; set; }
-        public bool WasPasswordResetRequest { get; set; }
         public string? Token { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? TokenValidBefore { get; set; }

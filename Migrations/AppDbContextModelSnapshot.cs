@@ -27,15 +27,15 @@ namespace webapi.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("CreatorId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("FileName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("UserModelId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Name");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("UserModelId");
 
                     b.ToTable("Modules");
                 });
@@ -61,9 +61,6 @@ namespace webapi.Migrations
                     b.Property<float>("MaxScore")
                         .HasColumnType("real");
 
-                    b.Property<string>("RecordingFilename")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<float>("Score")
                         .HasColumnType("real");
 
@@ -74,7 +71,7 @@ namespace webapi.Migrations
 
                     b.HasIndex("UserModuleSessionId");
 
-                    b.ToTable("SessionModels");
+                    b.ToTable("Sessions");
                 });
 
             modelBuilder.Entity("webapi.src.Domain.Models.UserModel", b =>
@@ -103,18 +100,6 @@ namespace webapi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RecoveryCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("RecoveryCodeValidBefore")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RestoreCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("RestoreCodeValidBefore")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -124,9 +109,6 @@ namespace webapi.Migrations
 
                     b.Property<DateTime?>("TokenValidBefore")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("WasPasswordResetRequest")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -164,13 +146,9 @@ namespace webapi.Migrations
 
             modelBuilder.Entity("webapi.src.Domain.Models.ModuleModel", b =>
                 {
-                    b.HasOne("webapi.src.Domain.Models.UserModel", "Creator")
+                    b.HasOne("webapi.src.Domain.Models.UserModel", null)
                         .WithMany("CreatedModules")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Creator");
+                        .HasForeignKey("UserModelId");
                 });
 
             modelBuilder.Entity("webapi.src.Domain.Models.SessionModel", b =>

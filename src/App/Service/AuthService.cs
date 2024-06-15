@@ -24,62 +24,62 @@ namespace webapi.src.App.Service
             _duration = new TimeSpan(1, 0, 0, 0);
         }
 
-        public async Task<IActionResult> ResetPassword(PasswordResetBody body)
-        {
-            var user = await _userRepository.GetAsync(body.Email);
-            if (user == null)
-                return new NotFoundResult();
+        //public async Task<IActionResult> ResetPassword(PasswordResetBody body)
+        //{
+        //    var user = await _userRepository.GetAsync(body.Email);
+        //    if (user == null)
+        //        return new NotFoundResult();
 
-            if (body.Email == "testy@gmail.com" && body.RecoveryCode == "111111")
-            {
-                await _userRepository.ResetPassword(user, user.PasswordHash);
-                var testTokenPair = _jwtService.GenerateDefaultTokenPair(user.Id, user.RoleName);
-                var testTokenPayload = new TokenPayload
-                {
-                    TokenPair = testTokenPair,
-                    Role = Enum.Parse<UserRole>(user.RoleName),
-                };
+        //    if (body.Email == "testy@gmail.com" && body.RecoveryCode == "111111")
+        //    {
+        //        await _userRepository.ResetPassword(user, user.PasswordHash);
+        //        var testTokenPair = _jwtService.GenerateDefaultTokenPair(user.Id, user.RoleName);
+        //        var testTokenPayload = new TokenPayload
+        //        {
+        //            TokenPair = testTokenPair,
+        //            Role = Enum.Parse<UserRole>(user.RoleName),
+        //        };
 
-                var testRefreshToken = await _userRepository.UpdateTokenAsync(testTokenPair.RefreshToken, user.Id, _duration);
-                testTokenPayload.TokenPair.RefreshToken = testRefreshToken;
+        //        var testRefreshToken = await _userRepository.UpdateTokenAsync(testTokenPair.RefreshToken, user.Id, _duration);
+        //        testTokenPayload.TokenPair.RefreshToken = testRefreshToken;
 
-                return new OkObjectResult(testTokenPayload);
-            }
-            else if (body.Email == "testy@gmail.com" && body.RecoveryCode != "111111")
-                return new BadRequestResult();
+        //        return new OkObjectResult(testTokenPayload);
+        //    }
+        //    else if (body.Email == "testy@gmail.com" && body.RecoveryCode != "111111")
+        //        return new BadRequestResult();
 
-            if (!user.WasPasswordResetRequest || body.RecoveryCode != user.RecoveryCode || user.RecoveryCodeValidBefore < DateTime.UtcNow)
-                return new BadRequestResult();
-            await _userRepository.ResetPassword(user, body.Password);
+        //    if (!user.WasPasswordResetRequest || body.RecoveryCode != user.RecoveryCode || user.RecoveryCodeValidBefore < DateTime.UtcNow)
+        //        return new BadRequestResult();
+        //    await _userRepository.ResetPassword(user, body.Password);
 
-            var tokenPair = _jwtService.GenerateDefaultTokenPair(user.Id, user.RoleName);
-            var tokenPayload = new TokenPayload
-            {
-                TokenPair = tokenPair,
-                Role = Enum.Parse<UserRole>(user.RoleName),
-            };
+        //    var tokenPair = _jwtService.GenerateDefaultTokenPair(user.Id, user.RoleName);
+        //    var tokenPayload = new TokenPayload
+        //    {
+        //        TokenPair = tokenPair,
+        //        Role = Enum.Parse<UserRole>(user.RoleName),
+        //    };
 
-            var refreshToken = await _userRepository.UpdateTokenAsync(tokenPair.RefreshToken, user.Id, _duration);
-            tokenPayload.TokenPair.RefreshToken = refreshToken;
+        //    var refreshToken = await _userRepository.UpdateTokenAsync(tokenPair.RefreshToken, user.Id, _duration);
+        //    tokenPayload.TokenPair.RefreshToken = refreshToken;
 
-            return new OkObjectResult(tokenPayload);
-        }
+        //    return new OkObjectResult(tokenPayload);
+        //}
 
-        public async Task<IActionResult> Confirmation(ConfirmationBody body)
-        {
-            var user = await _userRepository.GetAsync(body.Email);
-            if (user == null)
-                return new NotFoundResult();
+        //public async Task<IActionResult> Confirmation(ConfirmationBody body)
+        //{
+        //    var user = await _userRepository.GetAsync(body.Email);
+        //    if (user == null)
+        //        return new NotFoundResult();
 
-            if (body.Email == "testy@gmail.com" && body.RecoveryCode == "111111")
-                return new OkResult();
-            else if (body.Email == "testy@gmail.com" && body.RecoveryCode != "111111")
-                return new BadRequestResult();
+        //    if (body.Email == "testy@gmail.com" && body.RecoveryCode == "111111")
+        //        return new OkResult();
+        //    else if (body.Email == "testy@gmail.com" && body.RecoveryCode != "111111")
+        //        return new BadRequestResult();
 
-            if (!user.WasPasswordResetRequest || body.RecoveryCode != user.RecoveryCode || user.RecoveryCodeValidBefore < DateTime.UtcNow)
-                return new BadRequestResult();
-            return new OkResult();
-        }
+        //    if (!user.WasPasswordResetRequest || body.RecoveryCode != user.RecoveryCode || user.RecoveryCodeValidBefore < DateTime.UtcNow)
+        //        return new BadRequestResult();
+        //    return new OkResult();
+        //}
 
         public async Task<IActionResult> RestoreToken(string refreshToken)
         {

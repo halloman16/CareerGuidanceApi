@@ -8,7 +8,5 @@ namespace webapi.src.App.IService
         Task<IActionResult> SignUp(SignUpBody body, string rolename);
         Task<IActionResult> SignIn(SignInBody body);
         Task<IActionResult> RestoreToken(string refreshToken);
-        Task<IActionResult> Confirmation(ConfirmationBody body);
-        Task<IActionResult> ResetPassword(PasswordResetBody body);
     }
 }

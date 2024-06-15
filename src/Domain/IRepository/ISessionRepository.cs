@@ -7,7 +7,7 @@ namespace webapi.src.Domain.IRepository
     public interface ISessionRepository
     {
         Task<SessionModel?> AddAsync(CreateSessionBody session, UserModel user, ModuleModel module);
-        Task<IEnumerable<SessionModel>> GetAllByUserModuleSessionIdAsync(Guid userModuleSessionId);
+        //Task<IEnumerable<SessionModel>> GetAllByUserModuleSessionIdAsync(Guid userModuleSessionId);
         Task<SessionModel?> GetSessionByIdAsync(Guid sessionId);
         Task<bool> DeleteAsync(Guid sessionId);
         Task<List<UserModuleSessionModel>?> GetAllSessions(Guid id);

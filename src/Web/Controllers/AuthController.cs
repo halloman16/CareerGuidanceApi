@@ -59,68 +59,68 @@ namespace webapi.src.Web.Controllers
             return result;
         }
 
-        [HttpPost("confirmation")]
-        [SwaggerOperation(Summary = "Подтвердить код восстановления аккаунта")]
-        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Успешно")]
-        [SwaggerResponse((int)HttpStatusCode.BadRequest, Description = "Ошибочный код или истекло время действия")]
-        [SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Пользователь не существует")]
+        //[HttpPost("confirmation")]
+        //[SwaggerOperation(Summary = "Подтвердить код восстановления аккаунта")]
+        //[SwaggerResponse((int)HttpStatusCode.OK, Description = "Успешно")]
+        //[SwaggerResponse((int)HttpStatusCode.BadRequest, Description = "Ошибочный код или истекло время действия")]
+        //[SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Пользователь не существует")]
 
-        public async Task<IActionResult> RecoveryCodeConfirmation(ConfirmationBody body)
-        {
-            var result = await _authService.Confirmation(body);
-            return result;
-        }
+        //public async Task<IActionResult> RecoveryCodeConfirmation(ConfirmationBody body)
+        //{
+        //    var result = await _authService.Confirmation(body);
+        //    return result;
+        //}
 
-        [HttpPost("reset")]
-        [SwaggerOperation(Summary = "Сброс пароля")]
-        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Пароль успешно сброшен", Type = typeof(TokenPayload))]
-        [SwaggerResponse((int)HttpStatusCode.BadRequest, Description = "Ошибочный код или истекло время действия")]
-        [SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Пользователь не существует")]
+        //[HttpPost("reset")]
+        //[SwaggerOperation(Summary = "Сброс пароля")]
+        //[SwaggerResponse((int)HttpStatusCode.OK, Description = "Пароль успешно сброшен", Type = typeof(TokenPayload))]
+        //[SwaggerResponse((int)HttpStatusCode.BadRequest, Description = "Ошибочный код или истекло время действия")]
+        //[SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Пользователь не существует")]
 
-        public async Task<IActionResult> ResetPassword(PasswordResetBody body)
-        {
-            var response = await _authService.ResetPassword(body);
-            if (response is OkObjectResult okObjectResult)
-            {
-                var tokenPayload = (TokenPayload)okObjectResult.Value;
-                if (body.Email != testEmail)
-                    await _emailService.SendEmail(body.Email, "Пароль успешно изменен", "");
-                return Ok(tokenPayload);
-            }
-            return response;
-        }
+        //public async Task<IActionResult> ResetPassword(PasswordResetBody body)
+        //{
+        //    var response = await _authService.ResetPassword(body);
+        //    if (response is OkObjectResult okObjectResult)
+        //    {
+        //        var tokenPayload = (TokenPayload)okObjectResult.Value;
+        //        if (body.Email != testEmail)
+        //            await _emailService.SendEmail(body.Email, "Пароль успешно изменен", "");
+        //        return Ok(tokenPayload);
+        //    }
+        //    return response;
+        //}
 
-        [HttpPost("recovery")]
-        [SwaggerOperation(Summary = "Отправить код восстановления на почту")]
-        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Успешно")]
-        [SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Пользователь не существует")]
+        //[HttpPost("recovery")]
+        //[SwaggerOperation(Summary = "Отправить код восстановления на почту")]
+        //[SwaggerResponse((int)HttpStatusCode.OK, Description = "Успешно")]
+        //[SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Пользователь не существует")]
 
-        public async Task<IActionResult> SendRecoveryCode(EmailBody body)
-        {
-            var recoveryCode = await _userRepository.GenerateRecoveryCode(body.Email);
-            if (recoveryCode == null)
-                return NotFound();
+        //public async Task<IActionResult> SendRecoveryCode(EmailBody body)
+        //{
+        //    var recoveryCode = await _userRepository.GenerateRecoveryCode(body.Email);
+        //    if (recoveryCode == null)
+        //        return NotFound();
 
-            if (body.Email == testEmail)
-                return Ok();
+        //    if (body.Email == testEmail)
+        //        return Ok();
 
-            await _emailService.SendEmail(
-                email: body.Email,
-                subject: "Код восстановления пароля",
-                message: $"Код восстановления: {recoveryCode}. " +
-                $"Если это были не вы, проигнорируйте данное сообщение");
-            return Ok();
-        }
+        //    await _emailService.SendEmail(
+        //        email: body.Email,
+        //        subject: "Код восстановления пароля",
+        //        message: $"Код восстановления: {recoveryCode}. " +
+        //        $"Если это были не вы, проигнорируйте данное сообщение");
+        //    return Ok();
+        //}
 
-        [SwaggerOperation("Восстановление токена")]
-        [SwaggerResponse(200, "Успешно создан", Type = typeof(TokenPayload))]
-        [SwaggerResponse(404, "Токен не используется")]
+        //[SwaggerOperation("Восстановление токена")]
+        //[SwaggerResponse(200, "Успешно создан", Type = typeof(TokenPayload))]
+        //[SwaggerResponse(404, "Токен не используется")]
 
-        [HttpPost("token")]
-        public async Task<IActionResult> RestoreTokenAsync(TokenBody body)
-        {
-            var result = await _authService.RestoreToken(body.Token);
-            return result;
-        }
+        //[HttpPost("token")]
+        //public async Task<IActionResult> RestoreTokenAsync(TokenBody body)
+        //{
+        //    var result = await _authService.RestoreToken(body.Token);
+        //    return result;
+        //}
     }
 }

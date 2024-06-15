@@ -23,7 +23,6 @@ namespace webapi.src.Infrastructure.Repository
 
             var moduleModel = new ModuleModel
             {
-                Creator = creator,
                 Name = newModule.Name
             };
 

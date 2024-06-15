@@ -10,8 +10,6 @@ namespace webapi.src.Domain.Models
         public string? FileName { get; set; }
 
         public List<UserModuleSessionModel> UserModuleSessions { get; set; }
-        public Guid CreatorId { get; set; }
-        public UserModel Creator { get; set; }
 
         public ModuleBody ToModuleBody()
         {

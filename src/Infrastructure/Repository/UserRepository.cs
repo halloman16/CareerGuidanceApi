@@ -53,30 +53,30 @@ namespace webapi.src.Infrastructure.Repository
                 .Include(e => e.UserModuleSessions)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
-        public async Task<string?> GenerateRecoveryCode(string email, TimeSpan? interval = null)
-        {
-            interval ??= TimeSpan.FromMinutes(10.0);
-            var user = await GetAsync(email);
-            if (user == null)
-                return null;
+        //public async Task<string?> GenerateRecoveryCode(string email, TimeSpan? interval = null)
+        //{
+        //    interval ??= TimeSpan.FromMinutes(10.0);
+        //    var user = await GetAsync(email);
+        //    if (user == null)
+        //        return null;
 
-            user.RecoveryCode = RecoveryCodeGenerator.Generate();
-            user.RecoveryCodeValidBefore = DateTime.UtcNow.Add(interval.Value);
-            user.WasPasswordResetRequest = true;
-            await _context.SaveChangesAsync();
+        //    user.RecoveryCode = RecoveryCodeGenerator.Generate();
+        //    user.RecoveryCodeValidBefore = DateTime.UtcNow.Add(interval.Value);
+        //    user.WasPasswordResetRequest = true;
+        //    await _context.SaveChangesAsync();
 
-            return user.RecoveryCode;
-        }
+        //    return user.RecoveryCode;
+        //}
 
-        public async Task<UserModel> ResetPassword(UserModel user, string newPassword)
-        {
-            user.PasswordHash = newPassword;
-            user.WasPasswordResetRequest = false;
-            user.RecoveryCodeValidBefore = null;
-            await _context.SaveChangesAsync();
+        //public async Task<UserModel> ResetPassword(UserModel user, string newPassword)
+        //{
+        //    user.PasswordHash = newPassword;
+        //    user.WasPasswordResetRequest = false;
+        //    user.RecoveryCodeValidBefore = null;
+        //    await _context.SaveChangesAsync();
 
-            return user;
-        }
+        //    return user;
+        //}
 
         public async Task<string?> UpdateTokenAsync(string newRefreshToken, Guid id, TimeSpan duration)
         {

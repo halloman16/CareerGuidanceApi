@@ -15,7 +15,7 @@ namespace webapi.src.Infrastructure.Data
         public DbSet<UserModel> Users { get; set; }
         public DbSet<ModuleModel> Modules { get; set; }
         public DbSet<UserModuleSessionModel> UserModuleSessions { get; set; }
-        public DbSet<SessionModel> SessionModels { get; set; }
+        public DbSet<SessionModel> Sessions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

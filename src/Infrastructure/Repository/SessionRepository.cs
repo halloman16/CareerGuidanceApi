@@ -46,31 +46,31 @@ namespace webapi.src.Infrastructure.Repository
                 };
                 userModule.Sessions.Add(newSession);
 
-                var sessionResult = await _context.SessionModels.AddAsync(newSession);
+                var sessionResult = await _context.Sessions.AddAsync(newSession);
                 await _context.SaveChangesAsync();
                 return sessionResult.Entity;
             }
 
-            public async Task<IEnumerable<SessionModel>> GetAllByUserModuleSessionIdAsync(Guid userModuleSessionId)
-            {
-                return await _context.SessionModels
-                    .Where(s => s.UserModuleSessionId == userModuleSessionId)
-                    .ToListAsync();
-            }
+            //public async Task<IEnumerable<SessionModel>> GetAllByUserModuleSessionIdAsync(Guid userModuleSessionId)
+            //{
+            //    return await _context.Sessions
+            //        .Where(s => s.UserModuleSessionId == userModuleSessionId)
+            //        .ToListAsync();
+            //}
 
             public async Task<SessionModel?> GetSessionByIdAsync(Guid sessionId)
             {
-                return await _context.SessionModels
+                return await _context.Sessions
                     .FirstOrDefaultAsync(s => s.Id == sessionId);
             }
 
             public async Task<bool> DeleteAsync(Guid sessionId)
             {
-                var session = await _context.SessionModels.FindAsync(sessionId);
+                var session = await _context.Sessions.FindAsync(sessionId);
                 if (session == null)
                     return false;
 
-                _context.SessionModels.Remove(session);
+                _context.Sessions.Remove(session);
                 await _context.SaveChangesAsync();
                 return true;
             }
